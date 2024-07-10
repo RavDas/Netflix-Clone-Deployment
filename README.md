@@ -206,4 +206,163 @@ sudo useradd \
     --no-create-home \
     --shell /bin/false prometheus
 ```
+* ``` --system ``` – Creates a system account.
+* ``` --no-create-home ``` – No home directory is needed for Prometheus or any other system accounts in our case.
+* ``` --shell /bin/false ``` – Prevents logging in as the Prometheus user.
+* ``` prometheus ``` – Creates a Prometheus user and a group with the same name.
+* 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/5a547d2d-90b8-4aae-a64f-4a1f0c92ac84)
+
+Let’s check the latest version of Prometheus from the download page.
+
+You can use the curl or wget command to download Prometheus.
+
+```
+wget https://github.com/prometheus/prometheus/releases/download/v2.47.1/prometheus-2.47.1.linux-amd64.tar.gz
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/8613e067-8992-4075-9db7-680bff441516)
+
+Extract all Prometheus files from the archive.
+
+```
+tar -xvf prometheus-2.47.1.linux-amd64.tar.gz
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/65560b7d-949c-4aea-9aff-866b90bb0d8e)
+
+in general a disk is mounted to the data directory. For now, I will simply create a /data directory. Also, you need a folder for Prometheus configuration files.
+
+```
+sudo mkdir -p /data /etc/prometheus
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/f6815436-ede9-4ac5-8469-3390e4a62e27)
+
+Then change the directory to Prometheus and move some files.
+
+```
+cd prometheus-2.47.1.linux-amd64/
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/0b24393f-e3de-40da-ac1d-41195d4be901)
+
+First of all, let’s move the Prometheus binary and a promtool to the /usr/local/bin/. 
+Promtool is used to check configuration files and Prometheus rules.
+
+```
+sudo mv prometheus promtool /usr/local/bin/
+
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/05179f02-6b9e-49f0-8401-d24d077ffccd)
+
+To avoid permission issues, you need to set the correct ownership for the /etc/prometheus/ and data directory.
+
+```
+sudo chown -R prometheus:prometheus /etc/prometheus/ /data/
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2e3b781a-6aae-4902-96ca-f9d40d13230e)
+
+
+You can delete the archive and a Prometheus folder when you are done.
+
+```
+cd
+rm -rf prometheus-2.47.1.linux-amd64.tar.gz
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/8a7f9324-5f9b-4605-a91b-047d6135063f)
+
+
+Verify that you can execute the Prometheus binary by running the following command:
+
+```
+prometheus --version
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/6a0004fe-5210-4c18-a561-cefb8bf9c5b3)
+
+
+To get more information and configuration options, run Prometheus Help.
+
+```
+prometheus --help
+```
+
+
+We’re going to use systemd, which is a system and service manager for Linux operating systems. For that, we need to create a Systemd unit configuration file.
+
+```
+sudo vim /etc/systemd/system/prometheus.service
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/249825e9-1de6-49c3-8ed1-93d3b2ff0f40)
+
+
+Prometheus.service
+
+```
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/local/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/data \
+  --web.console.templates=/etc/prometheus/consoles \
+  --web.console.libraries=/etc/prometheus/console_libraries \
+  --web.listen-address=0.0.0.0:9090 \
+  --web.enable-lifecycle
+
+[Install]
+WantedBy=multi-user.target
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/e1760c72-bd55-422e-8f63-ed6b5f2fb20a)
+
+
+Let’s go over a few of the most important options related to Systemd and Prometheus. Restart – Configures whether the service shall be restarted when the service process exits, is killed, or a timeout is reached.
+RestartSec – Configures the time to sleep before restarting a service.
+User and Group – Are Linux user and a group to start a Prometheus process.
+–config.file=/etc/prometheus/prometheus.yml – Path to the main Prometheus configuration file.
+–storage.tsdb.path=/data – Location to store Prometheus data.
+–web.listen-address=0.0.0.0:9090 – Configure to listen on all network interfaces. In some situations, you may have a proxy such as nginx to redirect requests to Prometheus. In that case, you would configure Prometheus to listen only on localhost.
+–web.enable-lifecycle — Allows to manage Prometheus, for example, to reload configuration without restarting the service.
+
+To automatically start the Prometheus after reboot, run enable.
+
+
+sudo systemctl enable prometheus
+
+
+Then just start the Prometheus.
+
+
+sudo systemctl start prometheus
+
+
+To check the status of Prometheus run the following command:
+
+
+sudo systemctl status prometheus
+
+
+Suppose you encounter any issues with Prometheus or are unable to start it. The easiest way to find the problem is to use the journalctl command and search for errors.
+
+
+journalctl -u prometheus -f --no-pager
+Now we can try to access it via the browser. I’m going to be using the IP address of the Ubuntu server. You need to append port 9090 to the IP.
+
+
+<public-ip:9090>
+
+
+If you go to targets, you should see only one – Prometheus target. It scrapes itself every 15 seconds by default.
