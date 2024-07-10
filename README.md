@@ -768,8 +768,239 @@ Now you will see the Detailed overview of Jenkins
 
 Install Email Extension Plugin in Jenkins
 
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2413c73b-975c-4f23-bc2d-16c4c46d32cc)
 
 
 Go to your Gmail and click on your profile
 
 Then click on Manage Your Google Account –> click on the security tab on the left side panel you will get this page(provide mail password).
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/7b6d0b22-0223-4e57-868c-84ff4024bc32)
+
+2-step verification should be enabled.
+
+Search for the app in the search bar you will get app passwords like the below image
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ade10600-a3fb-46f4-9e38-81b35451b8e0)
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/4b3694b5-63f3-426c-9cfa-05c6e40db14b)
+
+
+Click on Generate and copy the password
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/197cfa2a-b104-4e0b-bd57-c389cafda4f0)
+
+
+Once the plugin is installed in Jenkins, click on manage Jenkins –> configure system there under the E-mail Notification section configure the details as shown in the below image
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ba8c11b6-a3c9-4b75-8d25-adbe764701db)
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c978f075-7633-4b72-8c11-46ef38a76e18)
+
+Click on Apply and save.
+
+Click on Manage Jenkins–> credentials and add your mail username and generated password
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ac99e043-ecde-4dcb-a213-b2a94f85f14d)
+
+
+This is to just verify the mail configuration
+
+Now under the Extended E-mail Notification section configure the details as shown in the below images
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/724bf07f-da8c-4902-971c-e87ee1c984a2)
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/04e3b892-1fc0-4933-87d4-3204a5224102)
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ebb5a10a-8710-40c1-809e-3d6873a3d162)
+
+Click on Apply and save.
+
+```
+post {
+     always {
+        emailext attachLog: true,
+            subject: "'${currentBuild.result}'",
+            body: "Project: ${env.JOB_NAME}<br/>" +
+                "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                "URL: ${env.BUILD_URL}<br/>",
+            to: 'postbox.aj99@gmail.com',  #change Your mail
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+        }
+    }
+```
+
+Next, we will log in to Jenkins and start to configure our Pipeline in Jenkins
+
+### Install Plugins like JDK, Sonarqube Scanner, NodeJs, OWASP Dependency Check
+
+#### Install Plugins
+
+Goto Manage Jenkins →Plugins → Available Plugins →
+
+Install below plugins
+
+1 → Eclipse Temurin Installer (Install without restart)
+
+2 → SonarQube Scanner (Install without restart)
+
+3 → NodeJs Plugin (Install Without restart)
+
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/5d1e0de0-2c21-4a88-8ccb-9b459a3b51a4)
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/4a46ceca-5c20-45ff-9aa6-23ed44a3595e)
+
+
+#### Configure Java and Nodejs in Global Tool Configuration
+
+Goto Manage Jenkins → Tools → Install JDK(17) and NodeJs(16)→ Click on Apply and Save
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c4019d57-d385-46bb-b2c3-19e5500ffad5)
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/1a5247ed-dece-4845-b43c-55379402a177)
+
+
+#### Create a Job
+
+Create a job as Netflix Name, select pipeline and click on ok.
+
+### Configure Sonar Server in Manage Jenkins
+
+Get the Public IP Address of your EC2 Instance, Sonarqube works on Port 9000, so ```<Public_ip>:9000```. 
+
+Goto your Sonarqube Server. 
+
+Click on Administration → Security → Users → Click on Tokens and Update Token → Give it a name → and click on Generate Token
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/e5bb8c1b-a954-42d2-a5de-f1134264259b)
+
+Click on update Token
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ca1d5ccf-8144-45f3-a4d3-1ec112303081)
+
+
+Create a token with a name and generate
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/b95c0073-845d-4e9a-9068-cdeadb1b8b30)
+
+
+copy the token
+
+Goto Jenkins Dashboard → Manage Jenkins → Credentials → Add Secret Text. It should look like this
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/1b45ab9d-21d2-4570-bd8a-9a11d355f6e7)
+
+
+You will this page once you click on create
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/419c0500-bb53-45e0-952d-bf142cd4db95)
+
+
+Now, go to Dashboard → Manage Jenkins → System and Add like the below image.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/4d11754d-4466-4db5-acd7-bfe668b8bcb8)
+
+
+Click on Apply and Save
+
+**Configure System** option is used in Jenkins to **configure different servers**.
+
+**Global Tool Configuration** is used to configure **different tools** that we install using plugins
+
+We will install a sonar scanner in the tools.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/40de6f71-a810-498f-8c9b-69f64ea0b42c)
+
+
+In the Sonarqube Dashboard add a quality gate also
+
+Administration–> Configuration–>Webhooks
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/9a09c6bc-4901-436f-a247-c9428a6e192b)
+
+Click on Create
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/f3286e1f-ff5a-41ce-be15-6b2b93ba14e5)
+
+
+Add details
+
+```
+#in url section of quality gate
+<http://jenkins-public-ip:8080>/sonarqube-webhook/
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c293e8ab-bb25-4811-af19-7cbd4d6fbafb)
+
+
+
+Now go to pipeline section in Jenkins and add below script to build the pipeline.
+
+```
+pipeline{
+    agent any
+    tools{
+        jdk 'jdk17'
+        nodejs 'node16'
+    }
+    environment {
+        SCANNER_HOME=tool 'sonar-scanner'
+    }
+    stages {
+        stage('clean workspace'){
+            steps{
+                cleanWs()
+            }
+        }
+        stage('Checkout from Git'){
+            steps{
+                git branch: 'main', url: 'https://github.com/Aj7Ay/Netflix-clone.git'
+            }
+        }
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
+                    -Dsonar.projectKey=Netflix '''
+                }
+            }
+        }
+        stage("quality gate"){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
+                }
+            } 
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install"
+            }
+        }
+    }
+    post {
+     always {
+        emailext attachLog: true,
+            subject: "'${currentBuild.result}'",
+            body: "Project: ${env.JOB_NAME}<br/>" +
+                "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                "URL: ${env.BUILD_URL}<br/>",
+            to: 'postbox.aj99@gmail.com',
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+        }
+    }
+}
+```
+
+Click on Build now, you will see the stage view like this
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/55070413-bbff-42ec-a0c9-1ccd81bb6e8d)
+
+
+To see the report, you can go to Sonarqube Server and go to Projects.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/7cd8215b-844f-4902-9e1b-3fd9481b4275)
+
+
+You can see the report has been generated and the status shows as passed. You can see that there are 3.2k lines it scanned. To see a detailed report, you can go to issues.
