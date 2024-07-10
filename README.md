@@ -533,11 +533,11 @@ prometheus.yml
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c03c49a3-e519-44c0-b87b-a82f942ddf36)
 
-By default, Node Exporter will be exposed on port 9100.
+By default, Node Exporter will be exposed on port 9100. We use localhost since Prometheus and Node Expoter are in the same EC2 instance.
 
 Since we enabled lifecycle management via API calls, we can reload the Prometheus config without restarting the service and causing downtime.
 
-Before, restarting check if the config is valid.
+Before restarting, check if the recent configuration is valid.
 
 ```
 promtool check config /etc/prometheus/prometheus.yml
@@ -546,7 +546,7 @@ promtool check config /etc/prometheus/prometheus.yml
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ecf359b9-a1bf-47f0-9f5c-0b51420d13a0)
 
 
-Then, you can use a POST request to reload the config.
+Then, you can use a POST request to reload the config for Node Exporter.
 
 ```
 curl -X POST http://localhost:9090/-/reload
@@ -564,3 +564,119 @@ http://<ip>:9090/targets
 
 
 ### Install Grafana on Ubuntu 22.04
+
+To visualize metrics we can use Grafana. There are many different data sources that Grafana supports, one of them is Prometheus.
+
+First, let’s make sure that all the dependencies are installed.
+
+```
+sudo apt-get install -y apt-transport-https software-properties-common
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/a79dfcac-bc65-464e-bc62-818ade147c3c)
+
+
+Next, add the GPG key.
+
+```
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/6f8357e9-8d24-4f51-ae5f-26b774a1b96d)
+
+
+Add this repository for stable releases.
+
+```
+echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/59406c0c-6715-4a5a-aecf-e6fab5cb8e9f)
+
+After you add the repository, update and install Garafana.
+
+```
+sudo apt-get update
+
+sudo apt-get -y install grafana
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/eee86dbe-37e1-44c8-95a1-d265d7d39409)
+
+To automatically start the Grafana after reboot, enable the service.
+
+```
+sudo systemctl enable grafana-server
+```
+
+Then start the Grafana.
+
+```
+sudo systemctl start grafana-server
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2290e32c-89c2-49bc-8e3f-eca01117656d)
+
+To check the status of Grafana, run the following command:
+
+```
+sudo systemctl status grafana-server
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/b2e6062d-667e-4382-b699-88a1cc4dfd34)
+
+
+Go to http://<ip>:3000 and log in to the Grafana using default credentials. The username is admin, and the password is admin as well.
+
+```
+username admin
+password admin
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ee8d2205-e890-4c53-a839-9c2377e1b806)
+
+When you log in for the first time, you get the option to change the password.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/741be3d0-bebd-423b-8017-6b1c8deb8b9a)
+
+
+To visualize metrics, you need to add a data source first.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/9be252d7-ad31-4f9a-a964-57bb1f6aa529)
+
+
+Click Add data source and select Prometheus.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/08d1c388-a1f5-4754-8a1e-e05394dd13a5)
+
+
+For the URL, enter localhost:9090 and click Save and test. You can see Data source is working.
+
+```
+<public-ip:9090>
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ee747f05-58a9-4104-9369-4a87f4f2ddf6)
+
+Click on Save and Test.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/72a9e20e-4890-421b-867b-3dd6bbe67c9d)
+
+Let’s add Dashboard for a better view
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/f063332b-2b67-4dc0-8534-371ef3c74601)
+
+Click on Import Dashboard paste this code 1860 and click on load
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2fa78730-8747-42f0-a918-690601d1c3b7)
+
+
+Select the Datasource and click on Import
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/a6b1c24f-076c-428c-9f39-8fe7866b7dcf)
+
+You will see this output
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/d441968d-f4ec-46a7-829f-edc1d10b0590)
+
+
+### Install the Prometheus Plugin and Integrate it with the Prometheus server
