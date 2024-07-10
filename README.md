@@ -329,40 +329,56 @@ WantedBy=multi-user.target
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/e1760c72-bd55-422e-8f63-ed6b5f2fb20a)
 
 
-Let’s go over a few of the most important options related to Systemd and Prometheus. Restart – Configures whether the service shall be restarted when the service process exits, is killed, or a timeout is reached.
-RestartSec – Configures the time to sleep before restarting a service.
-User and Group – Are Linux user and a group to start a Prometheus process.
-–config.file=/etc/prometheus/prometheus.yml – Path to the main Prometheus configuration file.
-–storage.tsdb.path=/data – Location to store Prometheus data.
-–web.listen-address=0.0.0.0:9090 – Configure to listen on all network interfaces. In some situations, you may have a proxy such as nginx to redirect requests to Prometheus. In that case, you would configure Prometheus to listen only on localhost.
-–web.enable-lifecycle — Allows to manage Prometheus, for example, to reload configuration without restarting the service.
+To ensure Prometheus starts automatically after reboot, you can enable it in systemd.
+
+Here’s a summary of the important options related to Systemd and Prometheus configuration:
+
+Restart: Configures whether the service shall be restarted when the service process exits, is killed, or a timeout is reached.
+
+RestartSec: Configures the time to sleep before restarting a service.
+
+User and Group: Specifies the Linux user and group to start the Prometheus process.
+
+— config.file=/etc/prometheus/prometheus.yml: Path to the main Prometheus configuration file.
+— storage.tsdb.path=/data: Location to store Prometheus data.
+— web.listen-address=0.0.0.0:9090: Configures Prometheus to listen on all network interfaces. If you have a proxy like nginx handling external requests, you might restrict Prometheus to localhost.
+— web.enable-lifecycle: Allows managing Prometheus, such as reloading configuration without restarting the service.
 
 To automatically start the Prometheus after reboot, run enable.
 
-
+```
 sudo systemctl enable prometheus
-
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/4e86c1f2-23a9-410f-b295-862d66caf458)
 
 Then just start the Prometheus.
 
-
+```
 sudo systemctl start prometheus
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/3e4e8840-fb88-4e47-9d07-4c5ab4f6a03f)
 
 
 To check the status of Prometheus run the following command:
 
-
+```
 sudo systemctl status prometheus
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/4242be60-9e63-49c6-a982-9299a14da0e0)
 
+Suppose you encounter any issues with Prometheus or are unable to start it. The easiest way to find the problem is to use the ```journalctl``` command and search for errors.
 
-Suppose you encounter any issues with Prometheus or are unable to start it. The easiest way to find the problem is to use the journalctl command and search for errors.
-
-
+```
 journalctl -u prometheus -f --no-pager
+```
+
 Now we can try to access it via the browser. I’m going to be using the IP address of the Ubuntu server. You need to append port 9090 to the IP.
 
 
 <public-ip:9090>
 
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/b95b50a7-eaaf-47e5-9161-7320b22d4acd)
 
 If you go to targets, you should see only one – Prometheus target. It scrapes itself every 15 seconds by default.
+
+
