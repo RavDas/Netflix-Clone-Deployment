@@ -635,8 +635,9 @@ password admin
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ee8d2205-e890-4c53-a839-9c2377e1b806)
 
 When you log in for the first time, you get the option to change the password.
+
 <div style="overflow: hidden; height: 200px;">
-  <img src="https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/741be3d0-bebd-423b-8017-6b1c8deb8b9a" style="margin-top: -50px;">
+  <img src="https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/741be3d0-bebd-423b-8017-6b1c8deb8b9a" style="margin-top: -500px;">
 </div>
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/741be3d0-bebd-423b-8017-6b1c8deb8b9a)
