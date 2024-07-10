@@ -684,3 +684,92 @@ You will see this output
 
 
 ### Install the Prometheus Plugin and Integrate it with the Prometheus server
+
+Let’s monitor our Jenkins
+
+Need Jenkins up and running machine
+
+Goto Manage Jenkins –> Plugins –> Available Plugins
+
+Search for Prometheus and install it
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2e6f7d58-e8ff-4247-b3cb-d8dab71a4e86)
+
+
+Once that is done you will Prometheus is set to /Prometheus path in system configurations
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/5f8685a9-515c-461f-8f18-96ea88265d11)
+
+
+Nothing to change click on apply and save
+
+To create a static target, you need to add job_name with static_configs. go to Prometheus server
+
+```
+sudo vim /etc/prometheus/prometheus.yml
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/55fcfa05-b935-4ab5-a012-e1972a5cfcf8)
+
+Paste below code
+
+```
+  - job_name: 'jenkins'
+    metrics_path: '/prometheus'
+    static_configs:
+      - targets: ['<jenkins-ip>:8080']
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/4483863e-732d-4319-881a-f9bd7dea5e35)
+
+Before, restarting check if the config is valid.
+
+```
+promtool check config /etc/prometheus/prometheus.yml
+```
+
+Then, you can use a POST request to reload the config.
+
+```
+curl -X POST http://localhost:9090/-/reload
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ab99ee23-3f65-4747-9912-f49726bb3627)
+
+Check the targets section
+
+```
+http://<ip>:9090/targets
+```
+
+You will see Jenkins is added to it
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/bef7dd36-4b49-4855-a91d-2b00ec8752c5)
+
+
+Let’s add Dashboard for a better view in Grafana
+
+Click On Dashboard –> + symbol –> Import Dashboard
+
+Use Id 9964 and click on load
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/759d06d9-9ca8-40f5-9daa-4e4074a33599)
+
+Select the data source and click on Import
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/6352e07a-7847-4056-9b3d-e7f4b9f84f16)
+
+Now you will see the Detailed overview of Jenkins
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/7c6463d3-c63b-497f-a751-c02a835d2efc)
+
+
+### Email Integration With Jenkins and Plugin Setup
+
+Install Email Extension Plugin in Jenkins
+
+
+
+Go to your Gmail and click on your profile
+
+Then click on Manage Your Google Account –> click on the security tab on the left side panel you will get this page(provide mail password).
