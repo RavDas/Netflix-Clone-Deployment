@@ -863,7 +863,9 @@ Goto Manage Jenkins → Tools → Install JDK(17) and NodeJs(16)→ Click on App
 
 #### Create a Job
 
-Create a job as Netflix Name, select pipeline and click on ok.
+Create a job named Netflix, select pipeline and click on ok.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2008a011-fee9-4862-a610-d10b63de3357)
 
 ### Configure Sonar Server in Manage Jenkins
 
@@ -885,7 +887,7 @@ Create a token with a name and generate
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/b95c0073-845d-4e9a-9068-cdeadb1b8b30)
 
 
-copy the token
+Copy the token
 
 Goto Jenkins Dashboard → Manage Jenkins → Credentials → Add Secret Text. It should look like this
 
@@ -993,6 +995,10 @@ pipeline{
 }
 ```
 
+Email notification successfully received on personal Gmail account.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2c3fc4be-d1cb-4215-a5ef-ae0af1a2ce48)
+
 Click on Build now, you will see the stage view like this
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/55070413-bbff-42ec-a0c9-1ccd81bb6e8d)
@@ -1002,5 +1008,6 @@ To see the report, you can go to Sonarqube Server and go to Projects.
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/7cd8215b-844f-4902-9e1b-3fd9481b4275)
 
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/72e4e17a-38ad-4146-9248-06c297b0a95f)
 
 You can see the report has been generated and the status shows as passed. You can see that there are 3.2k lines it scanned. To see a detailed report, you can go to issues.
