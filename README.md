@@ -152,12 +152,11 @@ Click on the Login on the top right. You will get this page.
 
 You need to create an account here. click on click here. I have account that’s why i added my details there.
 
-![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/9150828f-6618-497e-9af9-a354787a4284)
+![9](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ee830bbc-18be-41c0-b4f5-5f8b95f04d6a)
 
 Once you create an account you will see this page.
 
-![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/a1c1a9da-ec37-4f16-baad-824897c1c5d5)
-
+![10](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/aba73221-cfda-47c7-94c2-e4a88bf21426)
 
 Let’s create an API key, By clicking on your profile and clicking settings.
 
@@ -191,3 +190,20 @@ Click on submit and you will get your API key.
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/9e2033d9-a7a7-4539-8eea-9767889bba20)
 
 
+### Install Prometheus and Grafana on the new Server (Second EC2 instance)
+
+Create a dedicated Linux user sometimes called a system account for Prometheus. Having individual users for each service serves two main purposes:
+
+* It is a security measure to reduce the impact in case of an incident with the service.
+
+* It simplifies administration as it becomes easier to track down what resources belong to which service.
+
+To create a system user or system account, run the following command:
+
+```
+sudo useradd \
+    --system \
+    --no-create-home \
+    --shell /bin/false prometheus
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/5a547d2d-90b8-4aae-a64f-4a1f0c92ac84)
