@@ -58,3 +58,40 @@ Jenkins Getting Started Screen.
 
 ![4](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/87aeeed7-80bb-4028-8ac0-c15447db0d79)
 
+
+### Step-by-Step Installation of Docker on the VM
+
+```# 1. Update the package list and install necessary packages
+sudo apt-get update 
+sudo apt-get install ca-certificates curl
+
+# 2. Download and add Docker's official GPG key
+sudo install -m 0755 -d /etc/apt/keyrings 
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc 
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# 3. Add Docker repository to Apt sources
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# 4. Update package index
+sudo apt-get update
+
+# 5. Install Docker packages
+sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+
+# 6. Add user to Docker group
+sudo usermod -aG docker $USER
+
+# 7. Apply group changes (log out and back in or use the following command)
+newgrp docker
+
+# 8. Grant permission to Docker socket (optional, for convenience)
+sudo chmod 666 /var/run/docker.sock
+```
+
+Following these steps, you should have successfully installed Docker on your Ubuntu system. You can now start using Docker to containerize and manage your applications.
+
+Follow this official document if you find any errors: Link: https://docs.docker.com/engine/install/ubuntu/
