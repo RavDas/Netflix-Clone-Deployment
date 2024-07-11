@@ -34,10 +34,25 @@ Step 13 — Access the Netflix app on the Browser.
 
 Step 14 — Terminate the AWS EC2 Instances.
 
+### Launch an Ubuntu(22.04) T2 Large Instance
 
-### Install Java, Jenkins, Docker and Trivy
+Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new key pair or use an existing one. Enable ssh, HTTP and HTTPS settings in the Security Group. We will add rest of the port later.
 
-#### Install Jenkins
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/185a4127-0679-46be-a207-010d5972d54c)
+
+![connect](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/04da2651-0421-480f-ac9a-6f2407894691)
+
+![connect2](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/25ce1b4b-299e-4118-9a1f-9b3300b60976)
+
+### Install Java runtime, Jenkins, Docker and Trivy
+
+#### 1 - Install JenJava runtime, Jenkinskins
+
+Connect to your console using ssh and key-pair (.pem file) using a terminal (MobaXtreme is preffered), and enter these commands to Install Jenkins
+
+```
+vi jenkins.sh #make sure run in Root (or) add at userdata while ec2 launch
+```
 
 ```
 #!/bin/bash
@@ -59,11 +74,9 @@ sudo systemctl start jenkins
 sudo systemctl status jenkins
 ```
 
-#$#%$%#$%$
-
 Once Jenkins is installed, you will need to go to your AWS EC2 Security Group and open Inbound Port 8080, since Jenkins works on Port 8080.
 
-Now, grab your Public IP Address - <EC2 Public IP Address:8080>
+Now, grab your Public IP Address - ```<EC2 Public IP Address:8080>```
 
 
 ```
@@ -87,7 +100,7 @@ Jenkins Getting Started Screen.
 ![4](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/87aeeed7-80bb-4028-8ac0-c15447db0d79)
 
 
-### Installation of Docker on the VM
+#### 2 - Installation of Docker on the VM
 
 ```
 # 1. Update the package list and install necessary packages
@@ -148,7 +161,7 @@ Update New password, This is Sonar Dashboard.
 
 ![8](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/6171a1fa-bfc4-4e31-9d11-c4054bb396de)
 
-### Install Trivy
+#### 3 - Install Trivy
 
 ```
 vi trivy.sh
