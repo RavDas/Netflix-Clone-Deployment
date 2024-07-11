@@ -1011,3 +1011,122 @@ To see the report, you can go to Sonarqube Server and go to Projects.
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/72e4e17a-38ad-4146-9248-06c297b0a95f)
 
 You can see the report has been generated and the status shows as passed. You can see that there are 3.2k lines it scanned. To see a detailed report, you can go to issues.
+
+
+Install OWASP Dependency Check Plugins
+GotoDashboard → Manage Jenkins → Plugins → OWASP Dependency-Check. Click on it and install it without restart.
+
+
+
+First, we configured the Plugin and next, we had to configure the Tool
+
+Goto Dashboard → Manage Jenkins → Tools →
+
+
+
+Click on Apply and Save here.
+
+Now go configure → Pipeline and add this stage to your pipeline and build.
+
+
+stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage('TRIVY FS SCAN') {
+            steps {
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }
+The stage view would look like this,
+
+
+
+You will see that in status, a graph will also be generated and Vulnerabilities.
+
+
+
+
+Docker Image Build and Push
+We need to install the Docker tool in our system, Goto Dashboard → Manage Plugins → Available plugins → Search for Docker and install these plugins
+
+Docker
+
+Docker Commons
+
+Docker Pipeline
+
+Docker API
+
+docker-build-step
+
+and click on install without restart
+
+
+
+Now, goto Dashboard → Manage Jenkins → Tools →
+
+
+
+Add DockerHub Username and Password under Global Credentials
+
+
+
+Add this stage to Pipeline Script
+
+COPY
+
+
+stage("Docker Build & Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
+                       sh "docker build --build-arg TMDB_V3_API_KEY=Aj7ay86fe14eca3e76869b92 -t netflix ."
+                       sh "docker tag netflix sevenajay/netflix:latest "
+                       sh "docker push sevenajay/netflix:latest "
+                    }
+                }
+            }
+        }
+        stage("TRIVY"){
+            steps{
+                sh "trivy image sevenajay/netflix:latest > trivyimage.txt" 
+            }
+        }
+You will see the output below, with a dependency trend.
+
+
+
+When you log in to Dockerhub, you will see a new image is created
+
+
+
+Now Run the container to see if the game coming up or not by adding the below stage
+
+
+stage('Deploy to container'){
+            steps{
+                sh 'docker run -d --name netflix -p 8081:80 sevenajay/netflix:latest'
+            }
+        }
+stage view
+
+
+
+<Jenkins-public-ip:8081>
+
+You will get this output
+
+
+
+Step 11 — Kuberenetes Setup
+Connect your machines to Putty or Mobaxtreme
+
+Take-Two Ubuntu 20.04 instances one for k8s master and the other one for worker.
+
+Install Kubectl on Jenkins machine also.
+
+Kubectl is to be installed on Jenkins also
+You can see the report has been generated and the status shows as passed. You can see that there are 3.2k lines it scanned. To see a detailed report, you can go to issues.
