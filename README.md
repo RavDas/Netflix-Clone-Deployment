@@ -1,12 +1,38 @@
 # Netflix-Clone-Deployment
 
+ In this project, will be using Jenkins as a CICD tool and deploying our application on a Docker container and Kubernetes Cluster and we will monitor the Jenkins and Kubernetes metrics using Grafana, Prometheus and Node exporter.
 
-Introduction:
-Welcome to my blog page! In this blog, we will deploy a Netflix clone application using DevSecOps principles.
+![front](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/098f65b6-af3d-4399-a83e-cba4b7099485)
 
-As part of this process, we will leverage Jenkins for CI/CD, Docker containers for application deployment, Kuber
+### Steps
 
+Step 1 — Launch an Ubuntu(22.04) T2 Large Instance
 
+Step 2 — Install Jenkins, Docker and Trivy. Create a Sonarqube Container using Docker.
+
+Step 3 — Create a TMDB API Key.
+
+Step 4 — Install Prometheus and Grafana On the new Server.
+
+Step 5 — Install the Prometheus Plugin and Integrate it with the Prometheus server.
+
+Step 6 — Email Integration With Jenkins and Plugin setup.
+
+Step 7 — Install Plugins like JDK, Sonarqube Scanner, Nodejs, and OWASP Dependency Check.
+
+Step 8 — Create a Pipeline Project in Jenkins using a Declarative Pipeline
+
+Step 9 — Install OWASP Dependency Check Plugins
+
+Step 10 — Docker Image Build and Push
+
+Step 11 — Deploy the image using Docker
+
+Step 12 — Kubernetes master and slave setup on Ubuntu (20.04)
+
+Step 13 — Access the Netflix app on the Browser.
+
+Step 14 — Terminate the AWS EC2 Instances.
 
 
 ### Install Java, Jenkins, Docker and Trivy
