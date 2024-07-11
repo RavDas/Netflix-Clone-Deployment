@@ -2,7 +2,7 @@
 
  In this project, will be using Jenkins as a CICD tool and deploying our application on a Docker container and Kubernetes Cluster and we will monitor the Jenkins and Kubernetes metrics using Grafana, Prometheus and Node exporter.
 
-![front](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/098f65b6-af3d-4399-a83e-cba4b7099485)
+![front1](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/47945225-d144-49e6-bc33-af17e28037d7)
 
 ### Steps
 
