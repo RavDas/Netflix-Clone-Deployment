@@ -58,8 +58,6 @@ ssh into the EC2 instance using GUI of the MobaXtreme termminal like below.
 ```bash
 git clone https://github.com/RavDas/Spring-Boot-Shopping-Cart-Web-App-Deployment.git
 ```
-replace with your GitHub repo
-
 
 2. Change the remote repo
 
