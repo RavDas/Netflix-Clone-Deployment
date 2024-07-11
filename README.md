@@ -1082,23 +1082,23 @@ Add DockerHub Username and Password under Global Credentials
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/fcf3062a-fef1-4518-9926-7cb55e8457a3)
 
-Add this stage to Pipeline Script
+Add this stage to Pipeline Script (Insert your own TMDB API keyt o build the docker image.)
 
 ```
 stage("Docker Build & Push"){
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                       sh "docker build --build-arg TMDB_V3_API_KEY=Aj7ay86fe14eca3e76869b92 -t netflix ."
-                       sh "docker tag netflix sevenajay/netflix:latest "
-                       sh "docker push sevenajay/netflix:latest "
+                       sh "docker build --build-arg TMDB_V3_API_KEY=xxxxxxxxxxxx -t netflix ."
+                       sh "docker tag netflix ravdas/netflix:latest "
+                       sh "docker push ravdas/netflix:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image sevenajay/netflix:latest > trivyimage.txt" 
+                sh "trivy image ravdas/netflix:latest > trivyimage.txt" 
             }
         }
 ```
@@ -1114,12 +1114,12 @@ When you log in to Dockerhub, you will see a new image is created
 ![dockregis (1)](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/77cafdd7-f276-4ba5-9af8-ff1a58f7af56)
 
 
-Now Run the container to see if the game coming up or not by adding the below stage
+Now Run the container to see if the game coming up or not by adding the below stage.
 
 ```
 stage('Deploy to container'){
             steps{
-                sh 'docker run -d --name netflix -p 8081:80 sevenajay/netflix:latest'
+                sh 'docker run -d --name netflix -p 8081:80 ravdas/netflix:latest'
             }
         }
 ```
