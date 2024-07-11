@@ -1032,7 +1032,7 @@ Click on Apply and Save here.
 Now go Jenkins configure → Pipeline and add this stage to your pipeline and build.
 
 ```
-stage('OWASP FS SCAN') {
+        stage('OWASP FS SCAN') {
             steps {
                 dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
@@ -1114,7 +1114,7 @@ When you log in to Dockerhub, you will see a new image is created
 ![dockregis (1)](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/77cafdd7-f276-4ba5-9af8-ff1a58f7af56)
 
 
-Now Run the container to see if the game coming up or not by adding the below stage.
+Now run the container to see if the game coming up or not by adding the below stage in Jenkins pipeline.
 
 ```
 stage('Deploy to container'){
@@ -1233,9 +1233,370 @@ sudo kubeadm join <master-node-ip>:<master-node-port> --token <token> --discover
 
 ![12](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/894adb5d-5dbf-4ff0-9ce7-508590c3ca1a)
 
-Check the 
+Check whether the nodes (instances of master and worker nodes) are created and running.
 
 ![13](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/f42ab47b-e8c3-4b1a-a426-8940ec745a58)
 
 Copy the config file to Jenkins master or the local file manager and save it
 
+```
+cd .kube/
+
+cat config
+```
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/96ffde47-0a5f-4097-b0ff-2ff2176cd11c)
+
+Copy it and save it in documents or another folder save it as secret-file.txt
+
+Note: create a secret-file.txt in your file explorer save the config in it and use this at the kubernetes credential section.
+
+Install Kubernetes Plugins in Jenkins, once it’s installed successfully.
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/900bc68b-4114-46d0-ad39-797a0aa34bf5)
+
+
+Go to manage Jenkins –> manage credentials –> Click on Jenkins global –> add credentials
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/67f3859b-c28f-4d2e-b544-8baac3b1b634)
+
+
+#### Install Node_exporter on both master and worker (Same as earlier)
+
+Let’s add Node_exporter on master and worker to monitor the metrics.
+
+First, let’s create a system user for Node Exporter by running the following command:
+
+```
+sudo useradd \
+    --system \
+    --no-create-home \
+    --shell /bin/false node_exporter
+```
+
+Use the wget command to download the binary.
+
+```
+wget https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz
+```
+
+Extract the node exporter from the archive.
+
+```
+tar -xvf node_exporter-1.6.1.linux-amd64.tar.gz
+```
+
+Move binary to the /usr/local/bin.
+
+```
+sudo mv \
+  node_exporter-1.6.1.linux-amd64/node_exporter \
+  /usr/local/bin/
+```
+
+Clean up, and delete node_exporter archive and a folder.
+
+```
+rm -rf node_exporter*
+```
+
+Verify that you can run the binary.
+
+```
+node_exporter --version
+```
+
+Node Exporter has a lot of plugins that we can enable. If you run Node Exporter's ```help``` you will get all the options.
+
+```
+node_exporter --help
+```
+–collector.logind We’re going to enable the login controller, just for the demo.
+
+Next, create a similar systemd unit file.
+
+```
+sudo vim /etc/systemd/system/node_exporter.service
+```
+
+```
+node_exporter.service
+```
+
+```
+[Unit]
+Description=Node Exporter
+Wants=network-online.target
+After=network-online.target
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/local/bin/node_exporter \
+    --collector.logind
+
+[Install]
+WantedBy=multi-user.target
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/441cf4c5-8485-4d2d-8ef4-7d743b481e05)
+
+To automatically start the Node Exporter after reboot, enable the service.
+
+```
+sudo systemctl enable node_exporter
+```
+
+Then start Node Exporter.
+
+```
+sudo systemctl start node_exporter
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/91471c55-fdbc-4afb-aae1-010915d3bee3)
+
+Check the status of Node Exporter with the following command:
+
+```
+sudo systemctl status node_exporter
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/511b062a-a0cb-4b2f-9c30-7e327781d317)
+
+
+If you have any issues, check logs with journalctl
+
+```
+journalctl -u node_exporter -f --no-pager
+```
+
+To create a static target, you need to add job_name with static_configs. Go to Prometheus server
+
+```
+sudo vim /etc/prometheus/prometheus.yml
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/edcceb45-ca2a-40fe-90b9-83258c2f1475)
+
+**prometheus.yml**
+
+```
+  - job_name: node_export_masterk8s
+    static_configs:
+      - targets: ["<master-ip>:9100"]
+
+  - job_name: node_export_workerk8s
+    static_configs:
+      - targets: ["<worker-ip>:9100"]
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/b87f417d-d78b-46b6-9d88-c8e01650f182)
+
+By default, Node Exporter will be exposed on port 9100.
+
+Since we enabled lifecycle management via API calls, we can reload the Prometheus config without restarting the service and causing downtime.
+
+Before, restarting check if the config is valid.
+
+```
+promtool check config /etc/prometheus/prometheus.yml
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/dbdc3e24-368c-47cf-a836-bb0d1a6bc9a6)
+
+Then, you can use a POST request to reload the config.
+
+```
+curl -X POST http://localhost:9090/-/reload
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2d460f9c-dc39-4766-8b33-37140755ca3e)
+
+Check the targets section
+
+```
+http://<prometheus_ip>:9090/targets
+```
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/1c2b559e-f93a-4693-878e-c003a9ed9122)
+
+
+Next step is to deploy the application on the Kubernetes cluster using Jenkins pipeline.
+
+```
+stage('Deploy to kubernets'){
+            steps{
+                script{
+                    dir('Kubernetes') {
+                        withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                                sh 'kubectl apply -f deployment.yml'
+                                sh 'kubectl apply -f service.yml'
+                        }   
+                    }
+                }
+            }
+        }
+```
+
+Stage view
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/d0c15bb1-7563-448f-a5bc-7a9304931c79)
+
+In the Kubernetes cluster(master) give this command
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/a78057d9-5f85-4828-9b54-a52a95116c4c)
+
+```
+kubectl get all 
+kubectl get svc #use anyone
+```
+
+![kubectl het all](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/b680e6f7-97d1-4a91-86a9-4a698adf5a58)
+
+
+### Access the deployed application from a Web browser 
+
+```
+<public-ip-of-worker-node:service port>
+```
+
+In here we have defined service port to be 30007 in service.yml available in Kubernetes directory of the repository. Make sure to open the relavant port in the security group inbound rules to allow outside traffic.
+
+Output:
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c25fda5a-35b3-42c6-916e-4d6403f5be8d)
+
+
+#### Monitoring
+
+Jenkins server:
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c4765beb-16b1-4755-b307-4530b7ac5365)
+
+Prometheus server:
+
+![promenode](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c5144f76-5275-4e34-92aa-f49c3ba5c22a)
+
+Master node:
+
+![master node](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2f1c3604-8ee3-4024-904c-7f7facdc5949)
+
+Worker node:
+
+![worker node](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/86ff66f0-146e-4a99-b983-3aca549b523f)
+
+
+Mail
+
+![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/85e8e07d-5d81-4721-be25-78d8c3c19df5)
+
+It contains trivyfs.txt(file scan report), trivyimage.txt(image scan report), build.log
+
+============================================================================================================
+
+#### Complete Pipeline
+
+```
+pipeline{
+    agent any
+    tools{
+        jdk 'jdk17'
+        nodejs 'node16'
+    }
+    environment {
+        SCANNER_HOME=tool 'sonar-scanner'
+    }
+    stages {
+        stage('clean workspace'){
+            steps{
+                cleanWs()
+            }
+        }
+        stage('Checkout from Git'){
+            steps{
+                git branch: 'main', url: 'https://github.com/Aj7Ay/Netflix-clone.git'
+            }
+        }
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
+                    -Dsonar.projectKey=Netflix '''
+                }
+            }
+        }
+        stage("quality gate"){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                }
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install"
+            }
+        }
+        stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage('TRIVY FS SCAN') {
+            steps {
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
+                       sh "docker build --build-arg TMDB_V3_API_KEY=AJ7AYe14eca3e76864yah319b92 -t netflix ."
+                       sh "docker tag netflix sevenajay/netflix:latest "
+                       sh "docker push sevenajay/netflix:latest "
+                    }
+                }
+            }
+        }
+        stage("TRIVY"){
+            steps{
+                sh "trivy image sevenajay/netflix:latest > trivyimage.txt"
+            }
+        }
+        stage('Deploy to container'){
+            steps{
+                sh 'docker run -d --name netflix -p 8081:80 sevenajay/netflix:latest'
+            }
+        }
+        stage('Deploy to kubernets'){
+            steps{
+                script{
+                    dir('Kubernetes') {
+                        withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                                sh 'kubectl apply -f deployment.yml'
+                                sh 'kubectl apply -f service.yml'
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+     always {
+        emailext attachLog: true,
+            subject: "'${currentBuild.result}'",
+            body: "Project: ${env.JOB_NAME}<br/>" +
+                "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                "URL: ${env.BUILD_URL}<br/>",
+            to: 'postbox.aj99@gmail.com',
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+        }
+    }
+}
+```
