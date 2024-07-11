@@ -56,15 +56,15 @@ ssh into the EC2 instance using GUI of the MobaXtreme termminal like below.
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/RavDas/Spring-Boot-Shopping-Cart-Web-App-Deployment.git
+git clone https://github.com/RavDas/Netflix-Clone-Deployment.git
 ```
 
 2. Change the remote repo
 
 ```bash
-git remote set-url origin https://github.com/RavDas/Spring-Boot-Shopping-Cart-Web-App-Deployment.git
+git remote set-url origin https://github.com/RavDas/Netflix-Clone-Deployment.git
 
-git remote add new-origin https://github.com/RavDas/Spring-Boot-Shopping-Cart-Web-App-Deployment.git
+git remote add new-origin https://github.com/RavDas/Netflix-Clone-Deployment.git
 ```
 replace with your GitHub repo
 
@@ -916,7 +916,7 @@ post {
             body: "Project: ${env.JOB_NAME}<br/>" +
                 "Build Number: ${env.BUILD_NUMBER}<br/>" +
                 "URL: ${env.BUILD_URL}<br/>",
-            to: 'postbox.aj99@gmail.com',  #change Your mail
+            to: 'raveensham@gmail.com',  #change Your mail
             attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
         }
     }
@@ -1049,7 +1049,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/Aj7Ay/Netflix-clone.git'
+                git branch: 'main', url: 'https://github.com/RavDas/Netflix-Clone-Deployment.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -1080,7 +1080,7 @@ pipeline{
             body: "Project: ${env.JOB_NAME}<br/>" +
                 "Build Number: ${env.BUILD_NUMBER}<br/>" +
                 "URL: ${env.BUILD_URL}<br/>",
-            to: 'postbox.aj99@gmail.com',
+            to: 'raveensham@gmail.com', #change Your mail
             attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
         }
     }
@@ -1611,7 +1611,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/Aj7Ay/Netflix-clone.git'
+                git branch: 'main', url: 'https://github.com/RavDas/Netflix-Clone-Deployment.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -1650,20 +1650,20 @@ pipeline{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
                        sh "docker build --build-arg TMDB_V3_API_KEY=AJ7AYe14eca3e76864yah319b92 -t netflix ."
-                       sh "docker tag netflix sevenajay/netflix:latest "
-                       sh "docker push sevenajay/netflix:latest "
+                       sh "docker tag netflix ravdas/netflix:latest "
+                       sh "docker push ravdas/netflix:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image sevenajay/netflix:latest > trivyimage.txt"
+                sh "trivy image ravdas/netflix:latest > trivyimage.txt"
             }
         }
         stage('Deploy to container'){
             steps{
-                sh 'docker run -d --name netflix -p 8081:80 sevenajay/netflix:latest'
+                sh 'docker run -d --name netflix -p 8081:80 ravdas/netflix:latest'
             }
         }
         stage('Deploy to kubernets'){
@@ -1686,7 +1686,7 @@ pipeline{
             body: "Project: ${env.JOB_NAME}<br/>" +
                 "Build Number: ${env.BUILD_NUMBER}<br/>" +
                 "URL: ${env.BUILD_URL}<br/>",
-            to: 'postbox.aj99@gmail.com',
+            to: 'raveensham@gmail.com',
             attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
         }
     }
