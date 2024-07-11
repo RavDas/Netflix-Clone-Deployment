@@ -59,35 +59,32 @@ ssh into the EC2 instance using GUI of the MobaXtreme termminal like below.
 git clone https://github.com/RavDas/Netflix-Clone-Deployment.git
 ```
 
-2. Change the remote repo
-
-```bash
-git remote set-url origin https://github.com/RavDas/Netflix-Clone-Deployment.git
-
-git remote add new-origin https://github.com/RavDas/Netflix-Clone-Deployment.git
-```
-replace with your GitHub repo
-
-
-3. Initialize Git Repository
+2. Initialize Git Repository
 
 ```bash
 git init
 ```
 
-4. Add Files to Git:
+3. Add Files to Git:
 
 ```bash
 Stage all files for the first commit:
 git add .
 ```
 
-5. Commit Files:
+4. Commit Files:
 
 ```bash
 Commit the staged files with a commit message:
 git commit -m "Initial commit"
 ```
+
+5. Change the remote repo
+
+```
+git remote add new-origin https://github.com/RavDas/Netflix-Clone-Deployment.git
+```
+replace with your GitHub repo
 
 6. Push to GitHub:
 
