@@ -1137,11 +1137,105 @@ You will get below output,
 
 ### Kuberenetes Setup
 
-Connect your machines to Putty or Mobaxtreme
-
-Take-Two Ubuntu 20.04 instances one for k8s master and the other one for worker.
-
 Install Kubectl on Jenkins machine also.
 
-Kubectl is to be installed on Jenkins also
-You can see the report has been generated and the status shows as passed. You can see that there are 3.2k lines it scanned. To see a detailed report, you can go to issues.
+```
+sudo vi kube.sh
+```
+
+```
+sudo apt update
+sudo apt install curl
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+```
+```
+sudo chmod +x kube.sh
+```
+```
+./kube.sh
+```
+
+Executer two Ubuntu 20.04 instances one for k8s master and the other one for worker. (t2.medium and 8GB storage)
+
+![instant](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ea1dd551-d871-43c4-8622-653497da538a)
+
+Connect your both master and worker machines to Putty or Mobaxtreme using ssh like earlier using the keypair(.pem) file.
+
+![connect ssh](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/4b6b91de-25f6-4f48-9385-26d538e2fd1d)
+
+1 - Change hostname in CLI of master Node -  Run on master node machine
+
+```
+sudo hostnamectl set-hostname K8s-Master
+```
+```
+exec bash
+```
+
+1.1 - Change hostname in CLI of worker Node -  Run on worker node machine
+
+```
+sudo hostnamectl set-hostname K8s-Worker
+```
+```
+exec bash
+```
+
+2 - Install Docker and Kubernetes on both master & worker  -  Run on both master and worker node machines
+
+```
+sudo apt-get update 
+sudo apt-get install -y docker.io
+sudo usermod –aG docker Ubuntu
+newgrp docker
+sudo chmod 666 /var/run/docker.sock
+```
+```
+sudo apt-get update
+```
+```
+sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+```
+
+```
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+```
+```
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+```
+
+```
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+```
+
+3 - Initialize Kubernets on master Node - Run on master node machine
+
+```
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+# in case your in root exit from it and run below commands
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+
+![11](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/6059a42b-50dc-4b3f-9952-34a41026fa12)
+
+4 - Join worker node with the master node -  Run on worker node machine
+
+```
+sudo kubeadm join <master-node-ip>:<master-node-port> --token <token> --discovery-token-ca-cert-hash <hash>
+```
+
+![12](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/894adb5d-5dbf-4ff0-9ce7-508590c3ca1a)
+
+Check the 
+
+![13](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/f42ab47b-e8c3-4b1a-a426-8940ec745a58)
+
+Copy the config file to Jenkins master or the local file manager and save it
+
