@@ -68,14 +68,16 @@ git init
 3. Add Files to Git:
 
 ```bash
-Stage all files for the first commit:
+# Stage all files for the first commit:
+
 git add .
 ```
 
 4. Commit Files:
 
 ```bash
-Commit the staged files with a commit message:
+# Commit the staged files with a commit message:
+
 git commit -m "Initial commit"
 ```
 
@@ -89,7 +91,8 @@ replace with your GitHub repo
 6. Push to GitHub:
 
 ```bash
-Push the local repository to GitHub:
+# Push the local repository to GitHub:
+
 git push -u origin main
 ```
 
