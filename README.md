@@ -38,7 +38,7 @@ Step 14 — Terminate the AWS EC2 Instances.
 
 ### Launch an Ubuntu(22.04) T2 Large Instance
 
-Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new key pair or use an existing one. Enable ssh, HTTP and HTTPS settings in the Security Group. We will add rest of the ports later.
+Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new key pair or use an existing one. Enable ssh(port 22), HTTP(port 80) and HTTPS(port 443) settings in the Security Group. We will add rest of the ports later.
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/185a4127-0679-46be-a207-010d5972d54c)
 
