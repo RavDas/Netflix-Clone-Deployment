@@ -2,7 +2,6 @@
 
  In this project, will be using Jenkins as a CICD tool and deploying our application on a Docker container and Kubernetes Cluster and we will monitor the Jenkins and Kubernetes metrics using Grafana, Prometheus and Node exporter.
 
-![1_2_Ys33gOVlW3f_MmxI4xKw](https://github.com/user-attachments/assets/8b22c713-c043-481d-9a6f-30145e42f31c)
 
 
 ### Steps
