@@ -4,6 +4,7 @@
 
 ![Untitled design (1)](https://github.com/user-attachments/assets/a29a28d5-5701-4719-8928-8d7561f07ad2)
 
+<img src="https://github.com/user-attachments/assets/a29a28d5-5701-4719-8928-8d7561f07ad2" alt="Untitled design (1)" width="700"/>
 
 ### Steps
 
