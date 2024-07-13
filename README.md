@@ -50,7 +50,7 @@ Here you need to have the created key-pair(.pem file) in the file directory of t
 
 ![connect](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/04da2651-0421-480f-ac9a-6f2407894691)
 
-![connect2](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/25ce1b4b-299e-4118-9a1f-9b3300b60976)
+![command](https://github.com/user-attachments/assets/1c9f7d39-8332-482a-a80c-8af558be8cc5)
 
 **OR**
 
