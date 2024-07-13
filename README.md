@@ -42,13 +42,15 @@ Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new 
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/185a4127-0679-46be-a207-010d5972d54c)
 
+Here you need to have the created key-pair(.pem file) in the file directory of the your local machine that you launch your console inorder to ssh into EC2 instance which is attached with the same key-pair(.pem file).
+
 ![connect](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/04da2651-0421-480f-ac9a-6f2407894691)
 
 ![connect2](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/25ce1b4b-299e-4118-9a1f-9b3300b60976)
 
 **OR**
 
-ssh into the EC2 instance using GUI of the MobaXtreme termminal like below.
+ssh into the EC2 instance using GUI of the MobaXtreme termminal like below (Here you can simply attach the key-pair in "Use private key" section).
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c97cc211-5e64-4ada-bb3c-13f1c639163b)
 
