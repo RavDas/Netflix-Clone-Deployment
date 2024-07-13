@@ -151,7 +151,7 @@ Now, grab your Public IP Address - ```<EC2 Public IP Address:8080>```
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
-Unlock Jenkins using an administrative password and install the suggested plugins.
+Unlock Jenkins using an administrative password using above command and install the suggested plugins.
 
 ![1](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ca2bad8c-dc7c-4761-ba2b-8447246e002b)
 
