@@ -42,6 +42,8 @@ Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new 
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/185a4127-0679-46be-a207-010d5972d54c)
 
+Now click on "Connect" button on "Instance" Dashboard. Then ckick on "SSH Client".
+
 Here you need to have the created key-pair(.pem file) in the file directory of the your local machine that you launch your console inorder to ssh into EC2 instance which is attached with the same key-pair(.pem file).
 
 ![connect](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/04da2651-0421-480f-ac9a-6f2407894691)
