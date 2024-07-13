@@ -8,27 +8,29 @@
 
 Step 1 — Launch an Ubuntu(22.04) T2 Large Instance
 
-Step 2 — Install Jenkins, Docker and Trivy. Create a Sonarqube Container using Docker.
+Ste 2 - Create your repository, and push those into your GitHub repository
 
-Step 3 — Create a TMDB API Key.
+Step 3 — Install Jenkins, Docker and Trivy. Create a Sonarqube Container using Docker.
 
-Step 4 — Install Prometheus and Grafana On the new Server.
+Step 4 — Create a TMDB API Key.
 
-Step 5 — Install the Prometheus Plugin and Integrate it with the Prometheus server.
+Step 5 — Install Prometheus and Grafana On the new Server.
 
-Step 6 — Email Integration With Jenkins and Plugin setup.
+Step 6 — Install the Prometheus Plugin and Integrate it with the Prometheus server.
 
-Step 7 — Install Plugins like JDK, Sonarqube Scanner, Nodejs, and OWASP Dependency Check.
+Step 7 — Email Integration With Jenkins and Plugin setup.
 
-Step 8 — Create a Pipeline Project in Jenkins using a Declarative Pipeline
+Step 8 — Install Plugins like JDK, Sonarqube Scanner, Nodejs, and OWASP Dependency Check.
 
-Step 9 — Install OWASP Dependency Check Plugins
+Step 9 — Create a Pipeline Project in Jenkins using a Declarative Pipeline
 
-Step 10 — Docker Image Build and Push
+Step 10 — Install OWASP Dependency Check Plugins
 
-Step 11 — Deploy the image using Docker
+Step 11 — Docker Image Build and Push
 
-Step 12 — Kubernetes master and slave setup on Ubuntu (20.04)
+Step 12 — Deploy the image using Docker
+
+Step 13 — Kubernetes master and slave setup on Ubuntu (20.04)
 
 Step 13 — Access the Netflix app on the Browser.
 
