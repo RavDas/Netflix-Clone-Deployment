@@ -242,6 +242,19 @@ sudo apt-get update
 sudo apt-get install trivy -y
 ```
 
+Execute the ```trivy.sh``` file
+
+```
+sudo chmod +x trivy.sh 
+```
+
+Run the ```trivy.sh``` file
+
+```
+./trivy.sh
+```
+
+
 ### Create a TMDB API Key
 
 Next, we will create a TMDB API key
