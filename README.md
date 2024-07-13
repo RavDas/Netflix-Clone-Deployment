@@ -144,7 +144,7 @@ sudo chmod 666 jenkins.sh
 
 Once Jenkins is installed, you will need to go to your AWS EC2 Security Group and open Inbound Port 8080, since Jenkins works on Port 8080.
 
-Now, grab your Public IP Address - ```<EC2 Public IP Address:8080>```
+Now, grab your Public IP Address of the EC2 instance - ```<EC2 Public IP Address:8080>```
 
 
 ```
@@ -198,7 +198,7 @@ sudo usermod -aG docker $USER
 # 7. Apply group changes (log out and back in or use the following command)
 newgrp docker
 
-# 8. Grant permission to Docker socket (optional, for convenience)
+# 8. Grant permission to Docker socket to push into the Docker Hub (optional, for convenience)
 sudo chmod 666 /var/run/docker.sock
 ```
 
@@ -215,7 +215,7 @@ After the docker installation, we create a sonarqube container (Remember to add 
 
 -access using <public_ip:9000>
 
-Now our sonarqube is up and running,
+Now our SonarQube is up and running,
 
 username: admin and password:admin
 
