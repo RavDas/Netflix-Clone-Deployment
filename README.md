@@ -2,8 +2,7 @@
 
  In this project, will be using Jenkins as a CICD tool and deploying our application on a Docker container and Kubernetes Cluster and we will monitor the Jenkins and Kubernetes metrics using Grafana, Prometheus and Node exporter.
 
-![Untitled design (2)](https://github.com/user-attachments/assets/528272b4-19da-4b75-9b5a-3a7f975069c8)
-
+![1 55](https://github.com/user-attachments/assets/8b27d2ee-48d3-4d72-b491-649badb515b2)
 
 
 ### Steps
@@ -317,6 +316,8 @@ Create a dedicated Linux user sometimes called a system account for Prometheus. 
 * It is a security measure to reduce the impact in case of an incident with the service.
 
 * It simplifies administration as it becomes easier to track down what resources belong to which service.
+  
+![1 7](https://github.com/user-attachments/assets/25434056-3d51-4921-bf3b-b39eb9c9c5d3)
 
 To create a system user or system account, run the following command:
 
@@ -1279,7 +1280,7 @@ sudo chmod +x kube.sh
 
 Execute two Ubuntu 20.04 instances one for k8s master and the other one for worker. (t2.medium and 8GB storage)
 
-![instant](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ea1dd551-d871-43c4-8622-653497da538a)
+![1 8](https://github.com/user-attachments/assets/4ed23497-973c-4f6c-b540-4ed4be75cdc3)
 
 Connect your both master and worker machines to Putty or Mobaxtreme using ssh like earlier using the keypair(.pem) file.
 
