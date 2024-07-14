@@ -1399,7 +1399,7 @@ Check whether the nodes (instances of master and worker nodes) are created and r
 
 ![13](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/f42ab47b-e8c3-4b1a-a426-8940ec745a58)
 
-Copy the config file to Jenkins master or the local file manager and save it
+Copy the config file to Jenkins master or the local file manager and save it to make the connection between Jenkins and Kubernetes.
 
 ```
 cd .kube/
