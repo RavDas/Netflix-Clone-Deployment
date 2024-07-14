@@ -1384,11 +1384,14 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 
 ![11](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/6059a42b-50dc-4b3f-9952-34a41026fa12)
 
+
 4 - Join worker node with the master node -  Run on worker node machine
 
 ```
 sudo kubeadm join <master-node-ip>:<master-node-port> --token <token> --discovery-token-ca-cert-hash <hash>
 ```
+
+![Untitled design](https://github.com/user-attachments/assets/3b43abab-a4e2-4a43-a5f0-fe57da2ea35b)
 
 ![12](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/894adb5d-5dbf-4ff0-9ce7-508590c3ca1a)
 
