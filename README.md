@@ -1408,9 +1408,9 @@ cat config
 ```
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/96ffde47-0a5f-4097-b0ff-2ff2176cd11c)
 
-Copy it and save it in documents or another folder save it as secret-file.txt
+Copy it and save it in your local machine and name it as secret-file.txt
 
-Note: create a secret-file.txt in your file explorer save the config in it and use this at the kubernetes credential section.
+Note: Create a secret-file.txt in your file explorer save the config in it and use this at the kubernetes credential section.
 
 Install Kubernetes Plugins in Jenkins, once it’s installed successfully.
 
