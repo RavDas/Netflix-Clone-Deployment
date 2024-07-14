@@ -1408,16 +1408,15 @@ cat config
 ```
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/96ffde47-0a5f-4097-b0ff-2ff2176cd11c)
 
-Copy it and save it in your local machine and name it as secret-file.txt
 
-Note: Create a secret-file.txt in your file explorer save the config in it and use this at the kubernetes credential section.
+Note: Create a secret-file.txt in your file explorer save the config file in it and use this at the Kubernetes "Credential" section.
 
 Install Kubernetes Plugins in Jenkins, once it’s installed successfully.
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/900bc68b-4114-46d0-ad39-797a0aa34bf5)
 
 
-Go to manage Jenkins –> manage credentials –> Click on Jenkins global –> add credentials
+Go to manage Jenkins –> Manage Credentials –> Click on Jenkins global –> Add Credentials
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/67f3859b-c28f-4d2e-b544-8baac3b1b634)
 
