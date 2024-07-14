@@ -746,7 +746,7 @@ sudo systemctl status grafana-server
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/b2e6062d-667e-4382-b699-88a1cc4dfd34)
 
 
-Go to http://<ip>:3000 and log in to the Grafana using default credentials. The username is admin, and the password is admin as well.
+Go to http://<prometheus_machine_ip_>:3000 and log in to the Grafana using default credentials. The username is admin, and the password is admin as well.
 
 ```
 username admin
