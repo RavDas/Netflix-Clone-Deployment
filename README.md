@@ -1277,7 +1277,7 @@ sudo chmod +x kube.sh
 ./kube.sh
 ```
 
-Executer two Ubuntu 20.04 instances one for k8s master and the other one for worker. (t2.medium and 8GB storage)
+Execute two Ubuntu 20.04 instances one for k8s master and the other one for worker. (t2.medium and 8GB storage)
 
 ![instant](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/ea1dd551-d871-43c4-8622-653497da538a)
 
