@@ -279,11 +279,11 @@ Once you create an account you will see this page.
 
 Let’s create an API key, By clicking on your profile and clicking settings.
 
-![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/fd3264c0-318a-4ce1-8c98-84cb96289394)
+![new](https://github.com/user-attachments/assets/a5442f01-6d7a-4aff-8dc4-d67ec1c751e9)
 
 Now click on API from the left side panel.
 
-![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/8356949a-f106-40cc-a813-b070dce141ed)
+![new1](https://github.com/user-attachments/assets/fa47453f-b013-4004-b459-6b5d4e147a6c)
 
 Now click on create
 
