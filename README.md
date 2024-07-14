@@ -2,7 +2,7 @@
 
  In this project, will be using Jenkins as a CICD tool and deploying our application on a Docker container and Kubernetes Cluster and we will monitor the Jenkins and Kubernetes metrics using Grafana, Prometheus and Node exporter.
 
-![1 55](https://github.com/user-attachments/assets/8b27d2ee-48d3-4d72-b491-649badb515b2)
+![Untitled design (2)](https://github.com/user-attachments/assets/528272b4-19da-4b75-9b5a-3a7f975069c8)
 
 
 ### Steps
@@ -39,9 +39,32 @@ Step 14 — Terminate the AWS EC2 Instances.
 
 ### Launch an Ubuntu(22.04) T2 Large Instance
 
-Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new key pair or use an existing one. Enable ssh(port 22), HTTP(port 80) and HTTPS(port 443) settings in the Security Group. We will add rest of the ports later.
+Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new key pair or use an existing one. 
 
-![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/185a4127-0679-46be-a207-010d5972d54c)
+![image](https://github.com/user-attachments/assets/4e65c82e-f8b8-4318-8827-010a731ac987)
+
+Enable below ports in the security group of the Instance,
+
+* SSH: Port 22 (TCP) - Used for secure shell access.
+* HTTP: Port 80 (TCP) - Used for unencrypted web traffic.
+* HTTPS: Port 443 (TCP) - Used for encrypted web traffic.
+* Jenkins: Port 8080 (TCP) - Default HTTP port for Jenkins web interface. (3000-10000)
+* Kubernetes:
+       - API Server: Port 6443 (TCP) - Kubernetes API server. (3000-10000)
+       - NodePort Services: Ports typically in the range 30000-32767 (TCP/UDP) for NodePort services.
+
+* Docker: Port 2376 (TCP) - Docker daemon over TLS.
+* SonarQube: 9000 (3000-10000)
+* Prometheus: Port 9090 (TCP) - Default port for Prometheus metrics server. (3000-10000)
+* Grafana: Port 3000 (TCP) - Default port for Grafana web interface. (3000-10000)
+* Node Exporter: Port 9100 (TCP) - Default port for Prometheus Node Exporter. (3000-10000)
+* SMTP (Plain Text): 25
+* SMTP (Secure/Encrypted - SMTPS): 465
+  
+I have open ports from 3000-10000 port range for ease as most of the required traffic are within that range.
+
+![image](https://github.com/user-attachments/assets/2dbc42ae-3b59-4227-9e45-53ac655ae01a)
+
 
 Now click on "Connect" button on "Instance" Dashboard. Then ckick on "SSH Client".
 
@@ -311,15 +334,18 @@ Click on submit and you will get your API key.
 
 ### Install Prometheus and Grafana on the new Server (Second EC2 instance)
 
-Create a dedicated Linux user sometimes called a system account for Prometheus. Having individual users for each service serves two main purposes:
+Enable same ports in the security group of the new instance by attaching the same security group as for the previosly created EC2 instance.
+  
+![1 7](https://github.com/user-attachments/assets/25434056-3d51-4921-bf3b-b39eb9c9c5d3)
+
+
+Create a dedicated Ubuntu user sometimes called a system account for Prometheus. Having individual users for each service serves two main purposes:
 
 * It is a security measure to reduce the impact in case of an incident with the service.
 
 * It simplifies administration as it becomes easier to track down what resources belong to which service.
-  
-![1 7](https://github.com/user-attachments/assets/25434056-3d51-4921-bf3b-b39eb9c9c5d3)
 
-To create a system user or system account, run the following command:
+In the new instance for Prometheus and Grafana, to create a system user or system account, run the following command:
 
 ```
 sudo useradd \
@@ -1258,11 +1284,15 @@ You will get below output,
 
 ### Kuberenetes Setup
 
-Install Kubectl on Jenkins machine also.
+Install Kubectl on Jenkins machine (Firstly created EC2 instance) also.
+
+Create a shell script
 
 ```
 sudo vi kube.sh
 ```
+
+Copy below code part into the ```kube.sh``` file.
 
 ```
 sudo apt update
@@ -1271,14 +1301,22 @@ curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
 ```
+
+Make the .sh file executable
+
 ```
 sudo chmod +x kube.sh
 ```
+
+Run the executable file
+
 ```
 ./kube.sh
 ```
 
 Execute two Ubuntu 20.04 instances one for k8s master and the other one for worker. (t2.medium and 8GB storage)
+
+Enable same ports in the security group of the new instances by attaching the same security group as for the firstly created EC2 instance.
 
 ![1 8](https://github.com/user-attachments/assets/4ed23497-973c-4f6c-b540-4ed4be75cdc3)
 
