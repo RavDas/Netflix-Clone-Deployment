@@ -816,7 +816,7 @@ Let’s add Dashboard for a better view
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/f063332b-2b67-4dc0-8534-371ef3c74601)
 
-Click on Import Dashboard paste this code 1860 and click on load
+Click on Import Dashboard and paste this code 1860 and click on load
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/2fa78730-8747-42f0-a918-690601d1c3b7)
 
