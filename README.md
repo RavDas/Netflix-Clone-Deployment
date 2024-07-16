@@ -127,9 +127,9 @@ git push -u origin main
 ```
 
 
-### Install Java runtime, Jenkins, Docker and Trivy
+### Install Jenkins, Docker and Trivy
 
-#### 1 - Install Java runtime, Jenkins
+#### 1 - Install Jenkins
 
 Connect to your console using ssh and key-pair (.pem file) using a terminal (MobaXtreme is preffered), and enter these commands to Install Jenkins
 
