@@ -37,7 +37,7 @@ Step 13 — Access the Netflix app on the Browser.
 
 Step 14 — Terminate the AWS EC2 Instances.
 
-### Launch an Ubuntu(22.04) T2 Large Instance
+### Launch an Ubuntu(22.04) T2 Medium Instance
 
 Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new key pair or use an existing one. 
 
