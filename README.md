@@ -37,9 +37,9 @@ Step 13 — Access the Netflix app on the Browser.
 
 Step 14 — Terminate the AWS EC2 Instances.
 
-### Launch an Ubuntu(22.04) T2 Medium Instance
+### Launch an Ubuntu(22.04) T2 Large Instance
 
-Launch an AWS T2 medium instance. Use the image as Ubuntu. You can create a new key pair or use an existing one. 
+Launch an AWS T2 large instance. Use the image as Ubuntu. You can create a new key pair or use an existing one. 
 
 ![image](https://github.com/user-attachments/assets/4e65c82e-f8b8-4318-8827-010a731ac987)
 
@@ -66,7 +66,7 @@ I have open ports from 3000-10000 port range for ease as most of the required tr
 ![image](https://github.com/user-attachments/assets/2dbc42ae-3b59-4227-9e45-53ac655ae01a)
 
 
-Now click on "Connect" button on "Instance" Dashboard. Then ckick on "SSH Client".
+Now click on "Connect" button on "Instances" Dashboard. Then click on "SSH Client".
 
 Here you need to have the created key-pair(.pem file) in the file directory of the your local machine that you launch your console inorder to ssh into EC2 instance which is attached with the same key-pair(.pem file).
 
@@ -76,7 +76,7 @@ Here you need to have the created key-pair(.pem file) in the file directory of t
 
 **OR**
 
-ssh into the EC2 instance using GUI of the MobaXtreme termminal like below (Here you can simply attach the key-pair in "Use private key" section).
+ssh into the EC2 instance using GUI of the MobaXtreme terminal like below (Here you can simply attach the key-pair in "Use private key" section).
 
 ![image](https://github.com/RavDas/Netflix-Clone-Deployment/assets/86109995/c97cc211-5e64-4ada-bb3c-13f1c639163b)
 
